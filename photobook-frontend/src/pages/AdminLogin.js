@@ -80,12 +80,6 @@ function AdminLogin() {
             {loading ? 'Signing In...' : 'Sign In as Admin'}
           </button>
         </form>
-        
-        <div className="mt-6 text-center">
-          <p className="text-gray-600 text-sm">
-            Default credentials: admin@example.com / admin123
-          </p>
-        </div>
       </div>
     </div>
   );
