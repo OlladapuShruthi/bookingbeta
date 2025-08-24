@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function PhotographerDashboard() {
   const [agreements, setAgreements] = useState([]);
   const [contactDetails, setContactDetails] = useState('');
 
   useEffect(() => {
-    axios.get('https://booking-backend-1-u8m4.onrender.com/api/agreements/photographer', {
+    axios.get(`${API_BASE_URL}/api/agreements/photographer`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => setAgreements(res.data));
   }, []);
 
   const handleAccept = async (id) => {
-    await axios.post(`https://booking-backend-1-u8m4.onrender.com/api/agreements/${id}/accept`, { contactDetails }, {
+    await axios.post(`${API_BASE_URL}/api/agreements/${id}/accept`, { contactDetails }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     setAgreements(agreements.filter(a => a._id !== id));
   };
 
   const handleReject = async (id) => {
-    await axios.post(`https://booking-backend-1-u8m4.onrender.com/api/agreements/${id}/reject`, {}, {
+    await axios.post(`${API_BASE_URL}/api/agreements/${id}/reject`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     setAgreements(agreements.filter(a => a._id !== id));
@@ -37,7 +39,7 @@ function PhotographerDashboard() {
               type="checkbox"
               checked={a.contractDone || false}
               onChange={e => {
-                axios.post(`https://booking-backend-1-u8m4.onrender.com/api/agreements/${a._id}/contract`, {
+                axios.post(`${API_BASE_URL}/api/agreements/${a._id}/contract`, {
                   contractDone: e.target.checked,
                   contractDuration: a.contractDuration || ''
                 }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
@@ -54,7 +56,7 @@ function PhotographerDashboard() {
                 type="text"
                 value={a.contractDuration || ''}
                 onChange={e => {
-                  axios.post(`https://booking-backend-1-u8m4.onrender.com/api/agreements/${a._id}/contract`, {
+                  axios.post(`${API_BASE_URL}/api/agreements/${a._id}/contract`, {
                     contractDone: true,
                     contractDuration: e.target.value
                   }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
@@ -71,7 +73,7 @@ function PhotographerDashboard() {
               type="checkbox"
               checked={a.paymentDone || false}
               onChange={e => {
-                axios.post(`https://booking-backend-1-u8m4.onrender.com/api/agreements/${a._id}/payment`, {
+                axios.post(`${API_BASE_URL}/api/agreements/${a._id}/payment`, {
                   paymentDone: e.target.checked
                 }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
                 .then(() => window.location.reload());

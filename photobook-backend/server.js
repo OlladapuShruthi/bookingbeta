@@ -10,8 +10,10 @@ const path = require('path');
 
 dotenv.config();
 const app = express();
+
+// CORS configuration - allow all origins for flexibility
 app.use(cors({
-  origin: 'https://booking1-frontend.onrender.com',
+  origin: true, // Allow all origins
   credentials: true
 }));
 app.use(express.json());
@@ -402,4 +404,4 @@ app.get('/api/agreements/client', authMiddleware, async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+app.listen(process.env.PORT || 5000, () => console.log(`Server running on port ${process.env.PORT || 5000}`));

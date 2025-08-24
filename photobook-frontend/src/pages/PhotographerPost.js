@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function PhotographerPost() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -15,7 +17,7 @@ function PhotographerPost() {
     formData.append('image', image);
 
     try {
-      await axios.post('https://booking-backend-1-u8m4.onrender.com/api/posts', formData, {
+      await axios.post(`${API_BASE_URL}/api/posts`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data'

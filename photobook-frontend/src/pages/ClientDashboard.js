@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function ClientDashboard() {
   const [agreements, setAgreements] = useState([]);
 
   useEffect(() => {
-    axios.get('https://booking-backend-1-u8m4.onrender.com/api/agreements/client', {
+    axios.get(`${API_BASE_URL}/api/agreements/client`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => setAgreements(res.data));
   }, []);
@@ -22,7 +24,7 @@ function ClientDashboard() {
               type="checkbox"
               checked={a.contractDone || false}
               onChange={e => {
-                axios.post(`http://localhost:5000/api/agreements/${a._id}/contract`, {
+                axios.post(`${API_BASE_URL}/api/agreements/${a._id}/contract`, {
                   contractDone: e.target.checked,
                   contractDuration: a.contractDuration || ''
                 }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
@@ -39,7 +41,7 @@ function ClientDashboard() {
                 type="text"
                 value={a.contractDuration || ''}
                 onChange={e => {
-                  axios.post(`http://localhost:5000/api/agreements/${a._id}/contract`, {
+                  axios.post(`${API_BASE_URL}/api/agreements/${a._id}/contract`, {
                     contractDone: true,
                     contractDuration: e.target.value
                   }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
@@ -56,7 +58,7 @@ function ClientDashboard() {
               type="checkbox"
               checked={a.paymentDone || false}
               onChange={e => {
-                axios.post(`http://localhost:5000/api/agreements/${a._id}/payment`, {
+                axios.post(`${API_BASE_URL}/api/agreements/${a._id}/payment`, {
                   paymentDone: e.target.checked
                 }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
                 .then(() => window.location.reload());
@@ -71,7 +73,7 @@ function ClientDashboard() {
               <input
                 type="text"
                 onBlur={e => {
-                  axios.post(`http://localhost:5000/api/agreements/${a._id}/review`, {
+                  axios.post(`${API_BASE_URL}/api/agreements/${a._id}/review`, {
                     review: e.target.value
                   }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
                   .then(() => window.location.reload());

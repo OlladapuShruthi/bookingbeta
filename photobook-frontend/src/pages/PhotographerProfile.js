@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function PhotographerProfile() {
   const { id } = useParams();
   const [posts, setPosts] = useState([]);
@@ -12,21 +14,21 @@ function PhotographerProfile() {
 
   useEffect(() => {
     // Fetch photographer info
-    axios.get(`https://booking-backend-1-u8m4.onrender.com/api/profiles`)
+    axios.get(`${API_BASE_URL}/api/profiles`)
       .then(res => {
         const profile = res.data.find(p => p.userId._id === id);
         if (profile) setPhotographer(profile.userId);
       });
 
     // Fetch posts by photographer
-    axios.get(`https://booking-backend-1-u8m4.onrender.com/api/posts/${id}`)
+    axios.get(`${API_BASE_URL}/api/posts/${id}`)
       .then(res => setPosts(res.data))
       .catch(() => setPosts([]));
   }, [id]);
 
   useEffect(() => {
     // Fetch reviews for this photographer
-    axios.get(`https://booking-backend-1-u8m4.onrender.com/api/agreements/photographer`, {
+    axios.get(`${API_BASE_URL}/api/agreements/photographer`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       const filteredReviews = res.data
@@ -38,7 +40,7 @@ function PhotographerProfile() {
 
   const handleAgreement = async () => {
     try {
-      await axios.post('https://booking-backend-1-u8m4.onrender.com/api/agreements', {
+      await axios.post(`${API_BASE_URL}/api/agreements`, {
         photographerId: id,
         note,
       }, {
@@ -65,7 +67,7 @@ function PhotographerProfile() {
       ) : (
         posts.map(post => (
           <div key={post._id} className="border p-4 mb-4">
-            <img src={`https://booking-backend-1-u8m4.onrender.com/${post.image}`} alt={post.title} width={200} />
+            <img src={`${API_BASE_URL}/${post.image}`} alt={post.title} width={200} />
             <h4 className="font-bold mt-2">{post.title}</h4>
             <p>{post.description}</p>
           </div>

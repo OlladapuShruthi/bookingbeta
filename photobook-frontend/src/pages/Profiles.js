@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function Profiles() {
   const [profiles, setProfiles] = useState([]);
 
   useEffect(() => {
-    axios.get('https://booking-backend-1-u8m4.onrender.com/api/profiles').then((res) => setProfiles(res.data));
+    axios.get(`${API_BASE_URL}/api/profiles`).then((res) => setProfiles(res.data));
   }, []);
 
   return (

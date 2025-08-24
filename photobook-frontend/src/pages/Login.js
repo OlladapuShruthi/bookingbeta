@@ -4,6 +4,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const { setUser } = useContext(AuthContext);
@@ -18,7 +20,8 @@ function Login() {
     e.preventDefault();
     try {
       // Use formData from the form, not hardcoded credentials
-      const res = await axios.post('https://booking-backend-1-u8m4.onrender.com/api/auth/login', formData);
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, formData);
+      localStorage.setItem('token', res.data.token);
       setUser(res.data.user);
       localStorage.setItem('user', JSON.stringify(res.data.user)); // Store user info for role/status checks
 

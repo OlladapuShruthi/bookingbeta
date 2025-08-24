@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function AdminDashboard() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get('https://booking-backend-1-u8m4.onrender.com/api/admin/profiles/pending', {
+      .get(`${API_BASE_URL}/api/admin/profiles/pending`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` },
       })
       .then((res) => setProfiles(res.data))
@@ -19,7 +21,7 @@ function AdminDashboard() {
   const handleApprove = async (id) => {
     try {
       await axios.post(
-        `https://booking-backend-1-u8m4.onrender.com/api/admin/profiles/approve/${id}`,
+        `${API_BASE_URL}/api/admin/profiles/approve/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` },

@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+
 function Register() {
   const [formData, setFormData] = useState({
     name: '',
@@ -45,7 +47,7 @@ function Register() {
       }
     }
     try {
-      await axios.post('https://booking-backend-1-u8m4.onrender.com/api/auth/register', data, {
+      await axios.post(`${API_BASE_URL}/api/auth/register`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success('Registration successful! Please wait for verification if photographer.');
