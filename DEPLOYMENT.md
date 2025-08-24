@@ -6,7 +6,6 @@
 ```
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
-PORT=5000
 ```
 
 ### Frontend (.env file in photobook-frontend)
@@ -25,7 +24,7 @@ REACT_APP_BACKEND_URL=https://your-backend-url.onrender.com
 6. Add environment variables in Render dashboard:
    - `MONGO_URI`: Your MongoDB connection string
    - `JWT_SECRET`: Your JWT secret key
-   - `PORT`: 5000 (or leave empty, Render will set it)
+   - Note: PORT is automatically set by Render, no need to specify it
 
 ### 2. Frontend Deployment on Render
 1. Create a new Static Site on Render
